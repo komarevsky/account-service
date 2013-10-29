@@ -32,6 +32,12 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>com.caucho</groupId>
+      <artifactId>hessian</artifactId>
+      <version>4.0.33</version>
+    </dependency>
+
   </dependencies>
 
 </project>
