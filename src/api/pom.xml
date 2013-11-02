@@ -3,15 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-      <groupId>com.freebetbot</groupId>
-      <artifactId>as</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+    <groupId>com.freebetbot</groupId>
+    <artifactId>as</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <groupId>com.freebetbot.as</groupId>
   <artifactId>api</artifactId>
   <packaging>jar</packaging>
-  <version>${project.parent.version}</version>
   <name>API for Account Service</name>
 
 </project>
