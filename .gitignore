@@ -4,3 +4,4 @@ target/
 .project
 META-INF/
 nb-configuration.xml
+nbactions.xml
