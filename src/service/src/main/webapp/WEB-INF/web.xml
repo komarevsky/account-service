@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	
+    <display-name>Account Service Web Application</display-name>
+    
+    <welcome-file-list>
+      <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>AccountService</servlet-name>
+        <servlet-class>com.caucho.hessian.server.HessianServlet</servlet-class>
+        <init-param>
+            <param-name>home-api</param-name>
+            <param-value>com.freebetbot.as.api.AccountService</param-value>
+        </init-param>
+        <init-param>
+            <param-name>home-class</param-name>
+            <param-value>com.freebetbot.as.service.AccountServiceFacade</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AccountService</servlet-name>
+        <url-pattern>/account-service</url-pattern>
+    </servlet-mapping>
+
+</web-app>

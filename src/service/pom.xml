@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.freebetbot</groupId>
+    <artifactId>as</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>com.freebetbot.as</groupId>
+  <artifactId>service</artifactId>
+  <packaging>war</packaging>
+  <name>Account Service</name>
+
+  <build>
+    <finalName>account-service</finalName>
+  </build>
+  
+  <dependencies>
+
+    <!-- INTERNAL -->
+    <dependency>
+      <groupId>com.freebetbot.as</groupId>
+      <artifactId>api</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+
+    <!-- EXTERNAL -->
+    <dependency>
+      <groupId>com.caucho</groupId>
+      <artifactId>hessian</artifactId>
+      <version>${hessianVersion}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+    </dependency>    
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>
