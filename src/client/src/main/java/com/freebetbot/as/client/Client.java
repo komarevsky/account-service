@@ -40,7 +40,7 @@ public class Client {
         }
         
         //run all writers
-        for (int i=0; i<options.getReaders(); ++i) {
+        for (int i=0; i<options.getWriters(); ++i) {
             Thread t = new Thread(new WriteTester(service, options.getIdList()));
             t.setDaemon(true);
             t.start();

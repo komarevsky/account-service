@@ -19,7 +19,7 @@ public class Help {
                 + "Example:\n" + Options.R_COUNT_OPTION + "10 "
                 + Options.W_COUNT_OPTION + "12 "
                 + Options.ID_LIST_OPTION + "1,2,3,4,5,6 "
-                + Options.URL_OPTION + "http://localhost:8084/account-service";
+                + Options.URL_OPTION + "http://localhost:8084/service/account-service";
         return s;
     }
 }
