@@ -15,14 +15,20 @@ import com.freebetbot.as.api.AccountServiceException;
  */
 public class AccountServiceFacade extends HessianServlet implements AccountService {
 
+    private final AccountServiceManager asManager;
+
+    public AccountServiceFacade() {
+        this.asManager = new AccountServiceManager();
+    }
+    
+    @Override
     public Long getAmount(Integer id) throws AccountServiceException {
-        //TODO: getAmount logic
-        return 0L;
+        return asManager.getAmount(id);
     }
 
+    @Override
     public void addAmount(Integer id, Long value) throws AccountServiceException {
-        //TODO: addAmount logic
-        throw new AccountServiceException("addAmount does not work for the moment");
+        asManager.addAmount(id, value);
     }
     
 }
