@@ -36,7 +36,8 @@ public abstract class ServiceTester implements Runnable {
             Integer id = idList.get(idIndex);
             try {
                 callServiceMethod(id);
-            } catch (Exception ex) {
+            } catch (Throwable ex) {
+                System.err.println(ex.toString());
             }
         }
     }

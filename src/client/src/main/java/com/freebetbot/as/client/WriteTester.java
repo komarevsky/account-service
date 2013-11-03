@@ -6,6 +6,7 @@
 package com.freebetbot.as.client;
 
 import com.freebetbot.as.api.AccountService;
+import com.freebetbot.as.api.AccountServiceException;
 import java.util.List;
 import java.util.Random;
 
@@ -24,7 +25,11 @@ public class WriteTester extends ServiceTester {
     
     @Override
     protected void callServiceMethod(Integer id) {
-        service.addAmount(id, random.nextLong());
+        try {
+            service.addAmount(id, random.nextLong());
+        } catch(AccountServiceException ex) {
+            System.err.println(ex.toString());
+        }
     }
     
     

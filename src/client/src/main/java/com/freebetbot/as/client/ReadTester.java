@@ -6,6 +6,7 @@
 package com.freebetbot.as.client;
 
 import com.freebetbot.as.api.AccountService;
+import com.freebetbot.as.api.AccountServiceException;
 import java.util.List;
 
 /**
@@ -20,7 +21,11 @@ public class ReadTester extends ServiceTester {
     
     @Override
     protected void callServiceMethod(Integer id) {
-        service.getAmount(id);
+        try {
+            service.getAmount(id);
+        } catch (AccountServiceException ex) {
+            System.err.println(ex.toString());
+        }
     }
     
     
