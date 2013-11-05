@@ -12,6 +12,7 @@ import com.freebetbot.as.client.cmd.Help;
 import com.freebetbot.as.client.cmd.Options;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import org.apache.log4j.Logger;
 
 /**
  * Entry point to application
@@ -19,6 +20,8 @@ import java.net.MalformedURLException;
  */
 public class Client {
 
+    private static final Logger LOGGER = Logger.getLogger(Client.class);
+    
     public static void main(String[] args) {        
         Options options = ArgsParser.parse(args);
         if (options == null) {
@@ -28,20 +31,24 @@ public class Client {
         
         AccountService service = getService(options.getServiceUrl());
         if (service == null) {
-            System.err.println("Account Service is unavailable");
+            LOGGER.fatal("Account Service is unavailable");
             System.exit(1);
         }
         
         //run all readers
         for (int i=0; i<options.getReaders(); ++i) {
-            Thread t = new Thread(new ReadTester(service, options.getIdList()));
+            ReadTester r = new ReadTester(service, options.getIdList(), 
+                    "ReadThread" + i);
+            Thread t = new Thread(r);
             t.setDaemon(true);
             t.start();
         }
         
         //run all writers
         for (int i=0; i<options.getWriters(); ++i) {
-            Thread t = new Thread(new WriteTester(service, options.getIdList()));
+            WriteTester w = new WriteTester(service, options.getIdList(), 
+                    "WriteTester" + i);
+            Thread t = new Thread(w);
             t.setDaemon(true);
             t.start();
         }
@@ -58,6 +65,7 @@ public class Client {
             HessianProxyFactory factory = new HessianProxyFactory();
             service = (AccountService) factory.create(AccountService.class, url);
         } catch(MalformedURLException ex) {
+            LOGGER.error("can not connect to service", ex);
             service = null;
         }
         

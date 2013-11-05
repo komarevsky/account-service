@@ -8,6 +8,7 @@ package com.freebetbot.as.client;
 import com.freebetbot.as.api.AccountService;
 import java.util.List;
 import java.util.Random;
+import org.apache.log4j.Logger;
 
 /**
  * Base for classes who want to test different AccountService methods:
@@ -16,14 +17,27 @@ import java.util.Random;
  */
 public abstract class ServiceTester implements Runnable {
 
+    private static final Logger LOGGER = Logger.getLogger(ServiceTester.class);
+    
     protected final AccountService service;
     protected final List<Integer> idList;
-
-    public ServiceTester(AccountService service, List<Integer> idList) {
+    protected final String threadName;
+    
+    /**
+     * Construtor.
+     * @param service Account Service
+     * @param idList list with range of account Ids to test
+     * @param threadName name of this thread (used in logging)
+     */
+    public ServiceTester(AccountService service, List<Integer> idList, String threadName) {
         this.service = service;
         this.idList = idList;
+        this.threadName = threadName;
     }
     
+    /**
+     * starts send requests to Account Server
+     */
     @Override
     public void run() {
         if (idList.isEmpty()) {
@@ -37,11 +51,15 @@ public abstract class ServiceTester implements Runnable {
             try {
                 callServiceMethod(id);
             } catch (Throwable ex) {
-                System.err.println(ex.toString());
+                LOGGER.error("error in " + threadName, ex);
             }
         }
     }
     
+    /**
+     * method which implements specific request to Account Service
+     * @param id account id
+     */
     protected abstract void callServiceMethod(Integer id);
     
 }

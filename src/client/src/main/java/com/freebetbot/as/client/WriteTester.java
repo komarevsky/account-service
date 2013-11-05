@@ -9,6 +9,7 @@ import com.freebetbot.as.api.AccountService;
 import com.freebetbot.as.api.AccountServiceException;
 import java.util.List;
 import java.util.Random;
+import org.apache.log4j.Logger;
 
 /**
  * tests addAmount method of AccountService
@@ -16,19 +17,32 @@ import java.util.Random;
  */
 public class WriteTester extends ServiceTester {
 
+    private static final Logger LOGGER = Logger.getLogger(WriteTester.class);
+    
     private final Random random;
     
-    public WriteTester(AccountService service, List<Integer> idList) {
-        super(service, idList);
+    /**
+     * constructor
+     * @param service
+     * @param idList
+     * @param threadName 
+     */
+    public WriteTester(AccountService service, List<Integer> idList, String threadName) {
+        super(service, idList, threadName);
         random = new Random();
     }
     
     @Override
     protected void callServiceMethod(Integer id) {
         try {
-            service.addAmount(id, random.nextLong());
+            Long amount = random.nextLong();
+            LOGGER.debug("send addAmount from " + threadName + " with id=" 
+                    + id + " amount=" + amount);
+            service.addAmount(id, amount);
+            LOGGER.debug("executed addAmount from " + threadName + " with id=" 
+                    + id + " amount=" + amount);
         } catch(AccountServiceException ex) {
-            System.err.println(ex.toString());
+            LOGGER.error("error in " + threadName, ex);
         }
     }
     

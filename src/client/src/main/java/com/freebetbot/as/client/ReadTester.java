@@ -8,6 +8,7 @@ package com.freebetbot.as.client;
 import com.freebetbot.as.api.AccountService;
 import com.freebetbot.as.api.AccountServiceException;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  * tests getAmount method of AccountService
@@ -15,16 +16,28 @@ import java.util.List;
  */
 public class ReadTester extends ServiceTester {
 
-    public ReadTester(AccountService service, List<Integer> idList) {
-        super(service, idList);
+    private static final Logger LOGGER = Logger.getLogger(ReadTester.class);
+    
+    /**
+     * constructor
+     * @param service
+     * @param idList
+     * @param threadName 
+     */
+    public ReadTester(AccountService service, List<Integer> idList, String threadName) {
+        super(service, idList, threadName);
     }
     
     @Override
     protected void callServiceMethod(Integer id) {
         try {
-            service.getAmount(id);
+            LOGGER.debug("send getAmount from " + threadName + " with id=" + id);
+            Long amount = service.getAmount(id);
+            String msg = "received amount= " + amount + " with id=" + id
+                    + " from " + threadName;
+            LOGGER.debug(msg);
         } catch (AccountServiceException ex) {
-            System.err.println(ex.toString());
+            LOGGER.error("error in " + threadName, ex);
         }
     }
     

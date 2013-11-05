@@ -7,12 +7,15 @@ package com.freebetbot.as.client.cmd;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
- *
+ * Class for parsing command line parameters
  * @author Siarhei Skavarodkin
  */
 public class ArgsParser {
+    
+    private static final Logger LOGGER = Logger.getLogger(ArgsParser.class);
     
     private ArgsParser() {}
     
@@ -76,7 +79,7 @@ public class ArgsParser {
                 result = false;
             }
         } catch (NumberFormatException ex) {
-            System.err.println("Incorrect readers number");
+            LOGGER.warn("Incorrect readers number");
             result = false;
         }
         
@@ -101,7 +104,7 @@ public class ArgsParser {
                 result = false;
             }
         } catch (NumberFormatException ex) {
-            System.err.println("Incorrect writers number");
+            LOGGER.warn("Incorrect writers number");
             result = false;
         }
         
@@ -127,7 +130,7 @@ public class ArgsParser {
                         idList.add(id);
                     }
                 } catch(NumberFormatException ex) {
-                    System.err.println("Invalid key=" + idString);
+                    LOGGER.warn("Invalid key=" + idString);
                 }
             }
 
@@ -153,7 +156,7 @@ public class ArgsParser {
             options.setServiceUrl(opt);
             result = true;
         } else {
-            System.err.println("Url is empty");
+            LOGGER.warn("Url is empty");
         }
         
         return result;
