@@ -10,6 +10,7 @@
 
   <properties>
     <hessianVersion>4.0.33</hessianVersion>
+    <springVersion>3.2.4.RELEASE</springVersion>
   </properties>
 
   <modules>

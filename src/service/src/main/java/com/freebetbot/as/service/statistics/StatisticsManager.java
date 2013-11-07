@@ -5,6 +5,7 @@
 
 package com.freebetbot.as.service.statistics;
 
+import java.util.Timer;
 import org.apache.log4j.Logger;
 
 /**
@@ -19,13 +20,66 @@ import org.apache.log4j.Logger;
 public class StatisticsManager {
     
     private static final Logger LOGGER = Logger.getLogger(StatisticsManager.class);
+    private static final long TIMER_PERIOD = 300 * 1000; // 5min
+    private static StatisticsManager instance;
+    
+    private final Timer timer;
     
     private long totalCallsGetAmount;
     private long totalCallsAddAmount;
     private long currentlyServedGetAmount;
     private long currentlyServedAddAmount;
     
-    public StatisticsManager() {
+    /**
+     * singleton implementation
+     * @return singleton instance of StatisticsManager
+     */
+    public static StatisticsManager getInstance() {
+        if (instance == null) {
+            instance = new StatisticsManager();
+        }
+        return instance;
+    }
+    
+    /**
+     * constructor
+     */
+    private StatisticsManager() {
+        StatisticsTimerTask timerTask = new StatisticsTimerTask(this);
+        timer = new Timer(true);
+        timer.scheduleAtFixedRate(timerTask, 0, TIMER_PERIOD);
+    }
+
+    /**
+     * get value of TotalCallsGetAmount counter
+     * @return value of TotalCallsGetAmount counter
+     */
+    public long getTotalCallsGetAmount() {
+        return totalCallsGetAmount;
+    }
+
+    /**
+     * get value of TotalCallsAddAmount counter
+     * @return value of TotalCallsAddAmount counter
+     */
+    public long getTotalCallsAddAmount() {
+        return totalCallsAddAmount;
+    }
+
+    /**
+     * get value of CurrentlyServedGetAmount counter
+     * @return value of CurrentlyServedGetAmount counter
+     */
+    public long getCurrentlyServedGetAmount() {
+        return currentlyServedGetAmount;
+    }
+
+    /**
+     * get value of CurrentlyServedAddAmount counter
+     * @return value of CurrentlyServedAddAmount counter
+     */
+    public long getCurrentlyServedAddAmount() {
+        return currentlyServedAddAmount;
     }
     
     /**

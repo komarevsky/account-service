@@ -31,48 +31,68 @@ public class AccountServiceManager implements AccountService {
     
     @Override
     public Long getAmount(Integer id) throws AccountServiceException {
-        statisticsManager.incGetAmountCounter();
-        
-        if (!isIdValid(id)) {
+        Long result;
+        try {
+            statisticsManager.incGetAmountCounter();
+
+            if (!isIdValid(id)) {
+                throw new AccountServiceException("Unacceptable id=" + id);
+            }
+
+            result = cacheMap.get(id);
+
+            if (result == null) { //cache does not contain data
+                result = dbHelper.getAmountById(id);
+                if (result == null) { //database does not contain data
+                    result = 0L;
+                    dbHelper.setAmountById(id, result);
+                } else {
+                    cacheData(id, result);
+                }
+            }
+
             statisticsManager.decGetAmountCounter();
-            throw new AccountServiceException("Unacceptable id=" + id);
-        }
-        
-        Long result = cacheMap.get(id);
-        
-        if (result == null) { //cache does not contain data
-            result = dbHelper.getAmountById(id);
-            if (result == null) { //database does not contain data
-                result = 0L;
-                dbHelper.setAmountById(id, result);
+        } catch(Throwable t) {
+            statisticsManager.decGetAmountCounter();
+            if (t instanceof AccountServiceException) {
+                throw t;
             } else {
-                cacheData(id, result);
+                throw new AccountServiceException(t.getMessage(), t);
             }
         }
-        
-        statisticsManager.decGetAmountCounter();
         return result;
     }
 
     @Override
     public void addAmount(Integer id, Long value) throws AccountServiceException {
-        statisticsManager.incAddAmountCounter();
-        if (!isIdValid(id)) {
-            statisticsManager.decAddAmountCounter();
-            throw new AccountServiceException("Unacceptable id=" + id);
-        }
-        
-        if (!isAmountValid(value)) {
-            statisticsManager.decAddAmountCounter();
-            throw new AccountServiceException("Unacceptable amount=" + value);
-        }
+        try {
+            statisticsManager.incAddAmountCounter();
+            
+            if (!isIdValid(id)) {
+                statisticsManager.decAddAmountCounter();
+                throw new AccountServiceException("Unacceptable id=" + id);
+            }
 
-        Long currentAmount = getAmount(id);
-        Long newAmount = currentAmount + value;
-        dbHelper.setAmountById(id, newAmount);
-        cacheData(id, newAmount);
-        
-        statisticsManager.decAddAmountCounter();
+            if (!isAmountValid(value)) {
+                statisticsManager.decAddAmountCounter();
+                throw new AccountServiceException("Unacceptable amount=" + value);
+            }
+
+            Long currentAmount = getAmount(id);
+            Long newAmount = currentAmount + value;
+            dbHelper.setAmountById(id, newAmount);
+            cacheData(id, newAmount);
+
+            statisticsManager.decAddAmountCounter();
+        } catch(Throwable t) {
+            statisticsManager.decAddAmountCounter();
+            statisticsManager.decAddAmountCounter();
+            if (t instanceof AccountServiceException) {
+                throw t;
+            } else {
+                throw new AccountServiceException(t.getMessage(), t);
+            }
+        }
     }
     
     /**

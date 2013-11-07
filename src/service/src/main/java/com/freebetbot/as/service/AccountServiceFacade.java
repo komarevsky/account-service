@@ -21,7 +21,7 @@ public class AccountServiceFacade extends HessianServlet implements AccountServi
     private final StatisticsManager statisticsManager;
 
     public AccountServiceFacade() {
-        this.statisticsManager = new StatisticsManager();
+        this.statisticsManager = StatisticsManager.getInstance();
         this.asManager = new AccountServiceManager(statisticsManager);
     }
     

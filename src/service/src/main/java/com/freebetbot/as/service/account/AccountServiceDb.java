@@ -6,7 +6,10 @@
 package com.freebetbot.as.service.account;
 
 import com.freebetbot.as.api.AccountServiceException;
-import javax.annotation.Resource;
+import com.freebetbot.as.service.support.HibernateHelper;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  * DB Helper
@@ -14,8 +17,8 @@ import javax.annotation.Resource;
  */
 class AccountServiceDb {
 
-    @Resource(lookup = "java:comp/env/jdbc/AccountServiceDS")
-    private javax.sql.DataSource ds;
+    //@Resource(lookup = "java:comp/env/jdbc/AccountServiceDS")
+    //private javax.sql.DataSource ds;
     
     /**
      * returns amount for specified id
@@ -34,6 +37,26 @@ class AccountServiceDb {
      * @throws AccountServiceException if any issue occurs
      */
     public void setAmountById(Integer id, Long amount) throws AccountServiceException {
-        //TODO set amount
+        /*
+        Account account = new Account(id, amount);
+        
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateHelper.getSession();
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(account);
+            transaction.commit();
+            session.close();
+        } catch (HibernateException ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            if (session != null) {
+                session.close();
+            }
+            throw new AccountServiceException(ex.getMessage(), ex);
+        }
+                */
     }
 }
