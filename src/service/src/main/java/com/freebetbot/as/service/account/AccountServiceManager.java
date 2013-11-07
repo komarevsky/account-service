@@ -8,7 +8,8 @@ package com.freebetbot.as.service.account;
 import com.freebetbot.as.api.AccountService;
 import com.freebetbot.as.api.AccountServiceException;
 import com.freebetbot.as.service.statistics.StatisticsManager;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * manager for operations with account
@@ -20,12 +21,12 @@ public class AccountServiceManager implements AccountService {
     
     private final StatisticsManager statisticsManager;
     // <id, amount>
-    private final HashMap<Integer, Long> cacheMap;
+    private final Map<Integer, Long> cacheMap;
     private final AccountServiceDb dbHelper;
     
     public AccountServiceManager(StatisticsManager statisticsManager) {
         this.statisticsManager = statisticsManager;
-        cacheMap = new HashMap<>(CACHE_SIZE);
+        cacheMap = new ConcurrentHashMap<>(CACHE_SIZE);
         dbHelper = new AccountServiceDb();
     }
     

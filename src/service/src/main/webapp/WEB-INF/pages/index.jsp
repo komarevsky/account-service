@@ -12,11 +12,18 @@ TotalCallsGetAmount: <%= StatisticsManager.getInstance().getTotalCallsGetAmount(
 TotalCallsAddAmount: <%= StatisticsManager.getInstance().getTotalCallsAddAmount() %>
 <br/>
 
-<!--form name="myform" method="POST"-->
+<!--form name="myform" method="POST">
     <input type="submit" value="Reset Statistics" formaction="<c:url value="/statistics/reset"/>">
     <br/>
     <input type="submit" value="Store Statistics" formaction="<c:url value="/statistics/store"/>">
-<!--/form-->
+</form-->
+
+<form class="inline" method="POST" action="<c:url value="/statistics/store"/>">
+    <input type="submit" value="Store Statistics" />
+</form>
+<form class="inline" method="POST" action="<c:url value="/statistics/reset"/>">
+    <input type="submit" value="Reset Statistics" />
+</form>
 
 </body>
 </html>
