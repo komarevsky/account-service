@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  */
 class AccountServiceDb {
 
-    @Resource(lookup = "java:comp/env/jdbc/tomdb11")
+    @Resource(lookup = "java:comp/env/jdbc/AccountServiceDS")
     private javax.sql.DataSource ds;
     
     /**
