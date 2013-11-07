@@ -3,12 +3,9 @@
  * email: komarevsky@gmail.com, admin@freebetbot.com
  */
 
-package com.freebetbot.as.service;
+package com.freebetbot.as.service.account;
 
 import com.freebetbot.as.api.AccountServiceException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import javax.annotation.Resource;
 
 /**

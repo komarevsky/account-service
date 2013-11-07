@@ -3,32 +3,38 @@
  * email: komarevsky@gmail.com, admin@freebetbot.com
  */
 
-package com.freebetbot.as.service;
+package com.freebetbot.as.service.account;
 
 import com.freebetbot.as.api.AccountService;
 import com.freebetbot.as.api.AccountServiceException;
+import com.freebetbot.as.service.statistics.StatisticsManager;
 import java.util.HashMap;
 
 /**
  * manager for operations with account
  * @author Siarhei Skavarodkin
  */
-class AccountServiceManager implements AccountService {
+public class AccountServiceManager implements AccountService {
 
     private static final int CACHE_SIZE = 1000;
     
+    private final StatisticsManager statisticsManager;
     // <id, amount>
     private final HashMap<Integer, Long> cacheMap;
     private final AccountServiceDb dbHelper;
     
-    public AccountServiceManager() {
+    public AccountServiceManager(StatisticsManager statisticsManager) {
+        this.statisticsManager = statisticsManager;
         cacheMap = new HashMap<>(CACHE_SIZE);
         dbHelper = new AccountServiceDb();
     }
     
     @Override
     public Long getAmount(Integer id) throws AccountServiceException {
+        statisticsManager.incGetAmountCounter();
+        
         if (!isIdValid(id)) {
+            statisticsManager.decGetAmountCounter();
             throw new AccountServiceException("Unacceptable id=" + id);
         }
         
@@ -44,16 +50,20 @@ class AccountServiceManager implements AccountService {
             }
         }
         
+        statisticsManager.decGetAmountCounter();
         return result;
     }
 
     @Override
     public void addAmount(Integer id, Long value) throws AccountServiceException {
+        statisticsManager.incAddAmountCounter();
         if (!isIdValid(id)) {
+            statisticsManager.decAddAmountCounter();
             throw new AccountServiceException("Unacceptable id=" + id);
         }
         
         if (!isAmountValid(value)) {
+            statisticsManager.decAddAmountCounter();
             throw new AccountServiceException("Unacceptable amount=" + value);
         }
 
@@ -61,6 +71,8 @@ class AccountServiceManager implements AccountService {
         Long newAmount = currentAmount + value;
         dbHelper.setAmountById(id, newAmount);
         cacheData(id, newAmount);
+        
+        statisticsManager.decAddAmountCounter();
     }
     
     /**
