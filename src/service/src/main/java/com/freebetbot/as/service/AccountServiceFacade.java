@@ -5,7 +5,6 @@
 
 package com.freebetbot.as.service;
 
-import com.freebetbot.as.service.statistics.StatisticsManager;
 import com.freebetbot.as.service.account.AccountServiceManager;
 import com.caucho.hessian.server.HessianServlet;
 import com.freebetbot.as.api.AccountService;
