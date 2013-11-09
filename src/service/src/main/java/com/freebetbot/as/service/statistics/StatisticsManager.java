@@ -5,6 +5,7 @@
 
 package com.freebetbot.as.service.statistics;
 
+import com.freebetbot.as.service.support.ThreadInfo;
 import java.util.Timer;
 import org.apache.log4j.Logger;
 
@@ -25,10 +26,10 @@ public class StatisticsManager {
     
     private final Timer timer;
     
-    private long totalCallsGetAmount;
-    private long totalCallsAddAmount;
-    private long currentlyServedGetAmount;
-    private long currentlyServedAddAmount;
+    private volatile long totalCallsGetAmount;
+    private volatile long totalCallsAddAmount;
+    private volatile long currentlyServedGetAmount;
+    private volatile long currentlyServedAddAmount;
     
     /**
      * singleton implementation
@@ -94,6 +95,7 @@ public class StatisticsManager {
      * stores current counter values to log
      */
     public void storeCountersToLog() {
+        LOGGER.info(new ThreadInfo().getThreadInfo());
         LOGGER.info(this.toString());
     }
     

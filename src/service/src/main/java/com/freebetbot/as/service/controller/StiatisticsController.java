@@ -17,26 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class StiatisticsController {
                               
-    @RequestMapping(value = "/statistics/reset", method = RequestMethod.POST)
+    @RequestMapping(value = "reset", method = RequestMethod.POST)
     public String resetStatisticsPost() {
         StatisticsManager.getInstance().resetStatistics();
         return "index";
     }
     
-    @RequestMapping(value = "/statistics/store", method = RequestMethod.POST)
+    @RequestMapping(value = "store", method = RequestMethod.POST)
     public String storeStatisticsPost() {
-        StatisticsManager.getInstance().storeCountersToLog();
-        return "index";
-    }
-    
-    @RequestMapping(value = "/statistics/reset", method = RequestMethod.GET)
-    public String resetStatisticsGet() {
-        StatisticsManager.getInstance().resetStatistics();
-        return "index";
-    }
-    
-    @RequestMapping(value = "/statistics/store", method = RequestMethod.GET)
-    public String storeStatisticsGet() {
         StatisticsManager.getInstance().storeCountersToLog();
         return "index";
     }
