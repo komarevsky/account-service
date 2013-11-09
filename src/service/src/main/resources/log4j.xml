@@ -10,7 +10,7 @@
   </appender>
   
   <root>
-    <priority value="ALL"/>
+    <priority value="DEBUG"/>
     <appender-ref ref="LOG-FILE-APPENDER"/>
   </root>
 </log4j:configuration>

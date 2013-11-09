@@ -10,6 +10,7 @@ import com.freebetbot.as.service.account.AccountServiceManager;
 import com.caucho.hessian.server.HessianServlet;
 import com.freebetbot.as.api.AccountService;
 import com.freebetbot.as.api.AccountServiceException;
+import com.freebetbot.as.service.statistics.StepAddAmountCounter;
 import com.freebetbot.as.service.statistics.StepGetAmountCounter;
 
 /**
@@ -19,11 +20,9 @@ import com.freebetbot.as.service.statistics.StepGetAmountCounter;
 public class AccountServiceFacade extends HessianServlet implements AccountService {
 
     private final AccountServiceManager asManager;
-    private final StatisticsManager statisticsManager;
 
     public AccountServiceFacade() {
-        this.statisticsManager = StatisticsManager.getInstance();
-        this.asManager = new AccountServiceManager(statisticsManager);
+        this.asManager = new AccountServiceManager();
     }
     
     @Override
@@ -33,6 +32,7 @@ public class AccountServiceFacade extends HessianServlet implements AccountServi
     }
 
     @Override
+    @StepAddAmountCounter
     public void addAmount(Integer id, Long value) throws AccountServiceException {
         asManager.addAmount(id, value);
     }

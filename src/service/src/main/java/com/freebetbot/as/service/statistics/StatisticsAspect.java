@@ -6,9 +6,9 @@
 package com.freebetbot.as.service.statistics;
 
 import org.apache.log4j.Logger;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
@@ -23,18 +23,31 @@ public class StatisticsAspect {
     @Pointcut("@annotation(com.freebetbot.as.service.statistics.StepGetAmountCounter)")
     public void stepGetAmountMethod() { }
     
-    @Around("stepGetAmountMethod()")
-    public Object stepGetAmountCall(ProceedingJoinPoint joinPoint) throws Throwable {
-        LOGGER.trace("stepGetAmountCall");
-        StatisticsManager manager = StatisticsManager.getInstance();
-        try {
-            manager.incGetAmountCounter();
-            Object result = joinPoint.proceed();
-            manager.decGetAmountCounter();
-            return result;
-        } catch (Throwable t) {
-            manager.decGetAmountCounter();
-            throw t;
-        }
+    @Pointcut("@annotation(com.freebetbot.as.service.statistics.StepAddAmountCounter)")
+    public void stepAddAmountMethod() { }
+    
+    @Before("stepGetAmountMethod()")
+    public void beforeGetAmountCall() {
+        LOGGER.trace("beforeStepGetAmountCall");
+        StatisticsManager.getInstance().incGetAmountCounter();
     }
+    
+    @After("stepGetAmountMethod()")
+    public void afterGetAmountCall() {
+        LOGGER.trace("afterStepGetAmountCall");
+        StatisticsManager.getInstance().decGetAmountCounter();
+    }
+
+    @Before("stepAddAmountMethod()")
+    public void beforeAddAmountCall() {
+        LOGGER.trace("beforeStepAddAmountCall");
+        StatisticsManager.getInstance().incAddAmountCounter();
+    }
+    
+    @After("stepAddAmountMethod()")
+    public void afterAddAmountCall() {
+        LOGGER.trace("afterStepAddAmountCall");
+        StatisticsManager.getInstance().decAddAmountCounter();
+    }
+
 }
