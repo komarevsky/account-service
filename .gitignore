@@ -5,3 +5,5 @@ target/
 META-INF/
 nb-configuration.xml
 nbactions.xml
+.idea
+*.iml
