@@ -3,14 +3,14 @@
 <log4j:configuration>
   
   <appender name="LOG-FILE-APPENDER" class="org.apache.log4j.FileAppender">
-    <param name="file" value="account-service.log"/>
+    <param name="file" value="logs/account-service.log"/>
     <layout class="org.apache.log4j.PatternLayout">
-      <param name="ConversionPattern" value="%d{ISO8601} [%5p] %c %m at %l%n"/>
+      <param name="ConversionPattern" value="%d{ISO8601} [%p] %l%n%m%n%n"/>
     </layout>
   </appender>
   
   <root>
-    <priority value="DEBUG"/>
+    <priority value="ALL"/>
     <appender-ref ref="LOG-FILE-APPENDER"/>
   </root>
 </log4j:configuration>
