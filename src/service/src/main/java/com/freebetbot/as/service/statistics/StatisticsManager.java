@@ -34,7 +34,7 @@ public class StatisticsManager {
      * singleton implementation
      * @return singleton instance of StatisticsManager
      */
-    public static StatisticsManager getInstance() {
+    public static synchronized StatisticsManager getInstance() {
         if (instance == null) {
             instance = new StatisticsManager();
         }
