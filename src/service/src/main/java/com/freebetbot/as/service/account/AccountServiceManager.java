@@ -34,7 +34,7 @@ public class AccountServiceManager implements AccountService {
     public Long getAmount(Integer id) throws AccountServiceException {
         Long result;
         try {
-            statisticsManager.incGetAmountCounter();
+            //statisticsManager.incGetAmountCounter();
 
             if (!isIdValid(id)) {
                 throw new AccountServiceException("Unacceptable id=" + id);
@@ -52,9 +52,9 @@ public class AccountServiceManager implements AccountService {
                 }
             }
 
-            statisticsManager.decGetAmountCounter();
+            //statisticsManager.decGetAmountCounter();
         } catch(Throwable t) {
-            statisticsManager.decGetAmountCounter();
+            //statisticsManager.decGetAmountCounter();
             if (t instanceof AccountServiceException) {
                 throw t;
             } else {

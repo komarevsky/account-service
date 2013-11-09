@@ -10,6 +10,7 @@ import com.freebetbot.as.service.account.AccountServiceManager;
 import com.caucho.hessian.server.HessianServlet;
 import com.freebetbot.as.api.AccountService;
 import com.freebetbot.as.api.AccountServiceException;
+import com.freebetbot.as.service.statistics.StepGetAmountCounter;
 
 /**
  * Facade for the whole logic of service
@@ -26,6 +27,7 @@ public class AccountServiceFacade extends HessianServlet implements AccountServi
     }
     
     @Override
+    @StepGetAmountCounter
     public Long getAmount(Integer id) throws AccountServiceException {
         return asManager.getAmount(id);
     }
