@@ -5,7 +5,6 @@
 
 package com.freebetbot.as.service.statistics;
 
-import com.freebetbot.as.service.support.ThreadInfo;
 import java.util.Timer;
 import org.apache.log4j.Logger;
 
@@ -46,8 +45,6 @@ public class StatisticsManager {
      * constructor
      */
     private StatisticsManager() {
-        LOGGER.info("StatisticsManager constructor:\n" 
-                + new ThreadInfo().getThreadInfo());
         StatisticsTimerTask timerTask = new StatisticsTimerTask(this);
         timer = new Timer(true);
         timer.scheduleAtFixedRate(timerTask, 0, TIMER_PERIOD);
