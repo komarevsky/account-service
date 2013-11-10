@@ -1,0 +1,4 @@
+This document contains limitation list for Account Service (Server part)
+
+1. Account Service may not work properly on clustered Application Servers
+2. Account Service was tested only on MySQL databases. If usage of PostgreSQL or Oracle showed any issues please redefine hibernate.cfg.xml (see user_guide.txt for details)

@@ -1,0 +1,41 @@
+This document describes how to use Account Service (Server part)
+
+Server part of Account Service contains Web-GUI which is available for user after application is deployed on Application Server.
+To see GUI open browser and follow the link:
+    http://<Application-server-ip-address>[:<appServerPort>]/account-service/
+Here is example for Tomcat running on the same machine where browser is:
+    http://localhost:8080/account-service/
+
+GUI consists of:
+1. main page - contains link of statistics page and tips for client part
+2. statistics page - this page shows values of counters (see section Counters) and gives possibility to perform operations on counters:
+   store - stores values of counters in logs (see section Logs)
+   reset - resets values of counters to zero
+
+
+=========================
+Counters
+=========================
+The following counters are presented:
+1. CurrentlyServedGetAmount - number of getAmount invocations that are currently being served
+2. CurrentlyServedAddAmount - number of addAmount invocations that are currently being served
+3. TotalCallsGetAmount - number of invocations of getAmount method
+4. TotalCallsAddAmount - number of invocations of addAmount method
+
+
+=========================
+Logs
+=========================
+Account service uses Log4j library for storing logs.
+Logs are stored at ${catalina.home}/logs/account-service.log
+To redefine default log configuration refer to Application Server documentation
+
+
+=========================
+Hibernate
+=========================
+Account Service uses Hibernate library to communicate with database.
+If default hibernate.cfg.xml (packed in application) is overwritten, then new configuration has only one restriction:
+it must contain
+    <mapping class="com.freebetbot.as.service.account.Account"/>
+in <session-factory> section

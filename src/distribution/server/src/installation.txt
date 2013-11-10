@@ -1,0 +1,21 @@
+This document describes how to install Account Service (Server part)
+
+1. Before installation of Account Service install the following software on server:
+* java7
+* database server (MySQL or Oracle or PostgreSQL)
+* Application Server (for example Tomcat)
+
+2. Create new database for storing Account Service data
+
+3. On DB server execute create_tables.sql on newly created database
+
+4. On Application Server create new Datasource with JNDI name "jdbc/AccountServiceDS" which will refer to created database
+Examples how to create DS for Tomcat:
+http://tomcat.apache.org/tomcat-7.0-doc/jndi-datasource-examples-howto.html
+http://www.captaindebug.com/2011/07/installing-mysql-datasource-on-tomcat-7.html
+
+5. Deploy account-service.war on Application Server
+
+6. Follow user_guide.txt to manage Account Service
+
+NOTE: Ensure you read limitation_list.txt
