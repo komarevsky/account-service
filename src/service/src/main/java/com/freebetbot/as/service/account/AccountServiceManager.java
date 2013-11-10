@@ -37,7 +37,6 @@ public class AccountServiceManager implements AccountService {
             result = dbHelper.getAmountById(id);
             if (result == null) { //database does not contain data
                 result = 0L;
-                dbHelper.setAmountById(id, result);
             } else {
                 cacheData(id, result);
             }

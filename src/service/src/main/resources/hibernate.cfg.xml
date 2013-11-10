@@ -6,7 +6,6 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.datasource">java:/comp/env/jdbc/AccountServiceDS</property>
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">false</property>
 
         <!-- MAPPINGS -->
