@@ -89,6 +89,7 @@ public class StatisticsManager {
     public void resetStatistics() {
         totalCallsGetAmount = 0;
         totalCallsAddAmount = 0;
+        LOGGER.info("Counters reset has been invoked");
     }
     
     /**
