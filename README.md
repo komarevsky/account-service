@@ -6,6 +6,7 @@ sample JavaEE project. Uses: Log4j, Hessian, Spring, Hibernate, Maven, Java7
 Project consists of
 * war app - server
 * jar app - client
+
 _ _ _
 
 Build
