@@ -21,6 +21,7 @@
         <dependencySet>
           <outputDirectory>as-server</outputDirectory>
           <useProjectArtifact>true</useProjectArtifact>
+          <outputFileNameMapping>account-${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
           <unpack>false</unpack>
           <scope>runtime</scope>
         </dependencySet>
