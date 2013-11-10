@@ -86,20 +86,12 @@ public class StatisticsManager {
     /**
      * Resets totalCallsGetAmount and totalCallsAddAmount counters
      */
-    public void resetTotalInvocationCounters() {
+    public void resetCounters() {
         totalCallsGetAmount = 0;
         totalCallsAddAmount = 0;
-        LOGGER.info("Total Invocation Counters reset has been invoked");
+        LOGGER.info("Statistics counters reset has been invoked");
     }
 
-    /**
-     * Resets currentlyServedGetAmount and currentlyServedAddAmount counters
-     */
-    public void resetCurrentInvocationCounters() {
-        currentlyServedGetAmount = 0;
-        currentlyServedAddAmount = 0;
-        LOGGER.info("Current Invocation Counters reset has been invoked");
-    }
 
     /**
      * stores current counter values to log

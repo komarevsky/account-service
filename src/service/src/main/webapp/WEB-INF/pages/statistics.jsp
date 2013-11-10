@@ -31,11 +31,8 @@ TotalCallsAddAmount: <c:out value="${totalCallsAddAmount}"/>
 <form method="POST" action="<c:url value="/statistics/store"/>">
     <input type="submit" value="Store Statistics" />
 </form>
-<form method="POST" action="<c:url value="/statistics/reset/current"/>">
-    <input type="submit" value="Reset CurrentlyServed Counters" />
-</form>
-<form method="POST" action="<c:url value="/statistics/reset/total"/>">
-    <input type="submit" value="Reset Total Counters" />
+<form method="POST" action="<c:url value="/statistics/reset"/>">
+    <input type="submit" value="Reset Statistics" />
 </form>
     
 </body>
