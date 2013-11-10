@@ -19,8 +19,9 @@ Build
         mvn clean install
 
 Take distribution packages:
-* distribution/client/target/as-client-<version>-bin.zip - client distribution
-* distribution/server/target/as-server-<version>-bin.zip - server distribution
+* distribution/client/target/as-client-VERSION-bin.zip - client distribution
+* distribution/server/target/as-server-VERSION-bin.zip - server distribution
+
 Distribution packages contain binaries and instructions. Please read instructions before usage of binaries
 
 _ _ _
