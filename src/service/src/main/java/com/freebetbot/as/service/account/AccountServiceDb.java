@@ -12,13 +12,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
- * DB Helper
+ * Account DB Helper
  * @author Siarhei Skavarodkin
  */
 class AccountServiceDb {
-
-    //@Resource(lookup = "java:comp/env/jdbc/AccountServiceDS")
-    //private javax.sql.DataSource ds;
     
     /**
      * returns amount for specified id
@@ -26,8 +23,24 @@ class AccountServiceDb {
      * @throws AccountServiceException if any issue
      */
     public Long getAmountById(Integer id) throws AccountServiceException {
-        // TODO get amount
-        return 0L;
+        Long result = null;
+        
+        Session session = null;
+        try {
+            session = HibernateHelper.getSession();
+            Account account = (Account) session.get(Account.class, id);
+            if (account != null) {
+                result = account.getAmount();
+            }
+            session.close();
+        } catch(HibernateException ex) {
+            if (session != null) {
+                session.close();
+            }
+            throw new AccountServiceException(ex);
+        }
+        
+        return result;
     }
     
     /**
@@ -37,7 +50,6 @@ class AccountServiceDb {
      * @throws AccountServiceException if any issue occurs
      */
     public void setAmountById(Integer id, Long amount) throws AccountServiceException {
-        /*
         Account account = new Account(id, amount);
         
         Session session = null;
@@ -55,8 +67,7 @@ class AccountServiceDb {
             if (session != null) {
                 session.close();
             }
-            throw new AccountServiceException(ex.getMessage(), ex);
+            throw new AccountServiceException(ex);
         }
-                */
     }
 }
