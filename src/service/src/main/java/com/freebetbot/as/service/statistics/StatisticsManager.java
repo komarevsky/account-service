@@ -46,6 +46,8 @@ public class StatisticsManager {
      * constructor
      */
     private StatisticsManager() {
+        LOGGER.info("StatisticsManager constructor:\n" 
+                + new ThreadInfo().getThreadInfo());
         StatisticsTimerTask timerTask = new StatisticsTimerTask(this);
         timer = new Timer(true);
         timer.scheduleAtFixedRate(timerTask, 0, TIMER_PERIOD);
@@ -97,7 +99,6 @@ public class StatisticsManager {
      * stores current counter values to log
      */
     public void storeCountersToLog() {
-        LOGGER.info(new ThreadInfo().getThreadInfo());
         LOGGER.info(this.toString());
     }
     
