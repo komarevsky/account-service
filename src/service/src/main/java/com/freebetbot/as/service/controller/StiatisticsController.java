@@ -32,14 +32,22 @@ public class StiatisticsController {
         return "statistics";
     }
     
-    @RequestMapping(value = "reset", method = RequestMethod.POST)
-    public String resetStatisticsPost(Map<String, Object> model) {
+    @RequestMapping(value = "reset/current", method = RequestMethod.POST)
+    public String resetCurrentCountersPost(Map<String, Object> model) {
         StatisticsManager manager = StatisticsManager.getInstance();        
-        manager.resetStatistics();
+        manager.resetCurrentInvocationCounters();
         putCountersToModel(manager, model);
         return "statistics-reset";
     }
-    
+
+    @RequestMapping(value = "reset/total", method = RequestMethod.POST)
+    public String resetTotalCountersPost(Map<String, Object> model) {
+        StatisticsManager manager = StatisticsManager.getInstance();        
+        manager.resetTotalInvocationCounters();
+        putCountersToModel(manager, model);
+        return "statistics-reset";
+    }
+
     @RequestMapping(value = "store", method = RequestMethod.POST)
     public String storeStatisticsPost(Map<String, Object> model) {
         StatisticsManager manager = StatisticsManager.getInstance();        
