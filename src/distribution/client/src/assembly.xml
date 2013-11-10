@@ -10,7 +10,7 @@
     <fileSets>
         <fileSet>
             <directory>src</directory>
-            <outputDirectory>as-server</outputDirectory>
+            <outputDirectory>as-client</outputDirectory>
             <excludes>
                 <exclude>assembly.xml</exclude>
             </excludes>
@@ -19,7 +19,7 @@
     
     <dependencySets>
         <dependencySet>
-          <outputDirectory>as-server</outputDirectory>
+          <outputDirectory>as-client/lib</outputDirectory>
           <useProjectArtifact>true</useProjectArtifact>
           <unpack>false</unpack>
           <scope>runtime</scope>

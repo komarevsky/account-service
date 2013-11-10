@@ -1,0 +1,19 @@
+This document describes how to use Account Service (Client part)
+
+Before usage ensure that java7 is installed on your system
+
+Usage:
+1. go to directory where you unpacked this archive
+
+2. adapt log4j.xml (if needed)
+
+3. run account service client:
+    java -cp .;lib/* com.freebetbot.as.client.Client --rCount=[x] --wCount=[y] --idList=[idList] --url=http://[ip]:[port]/account-service/account-service 
+where
+    [x] - number of readers. For example 3 
+    [y] - number of writers. For example 1 
+    [idList] - list of Ids (separated by commas) to use for reading/writing. For example 1,2,3 
+    [ip] - ip address of this machine. For example locahost
+    [port] - port used by this Application Server. For example 8080
+
+4. To complete work of client press <Enter>
