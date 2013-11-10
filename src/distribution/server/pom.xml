@@ -18,6 +18,7 @@
       <groupId>com.freebetbot.as</groupId>
       <artifactId>service</artifactId>
       <version>${project.version}</version>
+      <type>war</type>
     </dependency>
   </dependencies>
   

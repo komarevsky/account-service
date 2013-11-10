@@ -10,10 +10,19 @@
     <fileSets>
         <fileSet>
             <directory>src</directory>
-            <outputDirectory>as-server</outputDirectory>
+            <outputDirectory></outputDirectory>
             <excludes>
                 <exclude>assembly.xml</exclude>
             </excludes>
         </fileSet>
     </fileSets>
+    
+    <dependencySets>
+        <dependencySet>
+          <outputDirectory></outputDirectory>
+          <useProjectArtifact>true</useProjectArtifact>
+          <unpack>false</unpack>
+          <scope>runtime</scope>
+        </dependencySet>
+    </dependencySets>
 </assembly>

@@ -14,7 +14,7 @@ Examples how to create DS for Tomcat:
 http://tomcat.apache.org/tomcat-7.0-doc/jndi-datasource-examples-howto.html
 http://www.captaindebug.com/2011/07/installing-mysql-datasource-on-tomcat-7.html
 
-5. Deploy account-service.war on Application Server
+5. Deploy service-<version>.war on Application Server
 
 6. Follow user_guide.txt to manage Account Service
 
