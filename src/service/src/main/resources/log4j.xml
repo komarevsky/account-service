@@ -3,14 +3,25 @@
 <log4j:configuration>
   
   <appender name="LOG-FILE-APPENDER" class="org.apache.log4j.FileAppender">
-    <param name="file" value="logs/account-service.log"/>
+    <param name="file" value="${catalina.home}/logs/account-service.log"/>
+    <param name="Append" value="true" />
+    <param name="MaxFileSize" value="20MB" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d{ISO8601} [%p] %l%n%m%n%n"/>
     </layout>
   </appender>
   
+  <logger name="com.freebetbot">
+    <level value="DEBUG"/> 
+  </logger>
+  <logger name="org.springframework">
+    <level value="WARN"/> 
+  </logger>
+  <logger name="org.hibernate">
+    <level value="WARN"/> 
+  </logger>
+  
   <root>
-    <priority value="DEBUG"/>
     <appender-ref ref="LOG-FILE-APPENDER"/>
   </root>
 </log4j:configuration>
