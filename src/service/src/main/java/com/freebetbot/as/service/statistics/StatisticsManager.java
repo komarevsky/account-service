@@ -24,6 +24,8 @@ public class StatisticsManager {
     private static StatisticsManager instance;
     
     private final Timer timer;
+    private final Object getAmountCounterLock = new Object();
+    private final Object addAmountCounterLock = new Object();
     
     private volatile long totalCallsGetAmount;
     private volatile long totalCallsAddAmount;
@@ -86,8 +88,12 @@ public class StatisticsManager {
      * Resets totalCallsGetAmount and totalCallsAddAmount counters
      */
     public void resetCounters() {
-        totalCallsGetAmount = 0;
-        totalCallsAddAmount = 0;
+        synchronized (getAmountCounterLock) {
+            totalCallsGetAmount = 0;
+        }
+        synchronized (addAmountCounterLock) {
+            totalCallsAddAmount = 0;
+        }
         LOGGER.info("Statistics counters reset has been invoked");
     }
 
@@ -103,30 +109,38 @@ public class StatisticsManager {
      * increases currentlyServedGetAmount and totalCallsGetAmount counters
      */
     public void incGetAmountCounter() {
-        ++currentlyServedGetAmount;
-        ++totalCallsGetAmount;
+        synchronized (getAmountCounterLock) {
+            ++currentlyServedGetAmount;
+            ++totalCallsGetAmount;
+        }
     }
     
     /**
      * decreases currentlyServedGetAmount counters
      */
     public void decGetAmountCounter() {
-        --currentlyServedGetAmount;
+        synchronized (getAmountCounterLock) {
+            --currentlyServedGetAmount;
+        }
     }
 
     /**
      * increases currentlyServedAddAmount and totalCallsAddAmount counters
      */
     public void incAddAmountCounter() {
-        ++currentlyServedAddAmount;
-        ++totalCallsAddAmount;
+        synchronized (addAmountCounterLock) {
+            ++currentlyServedAddAmount;
+            ++totalCallsAddAmount;
+        }
     }
     
     /**
      * decreases currentlyServedAddAmount counters
      */
     public void decAddAmountCounter() {
-        --currentlyServedAddAmount;
+        synchronized (addAmountCounterLock) {
+            --currentlyServedAddAmount;
+        }
     }
 
     @Override
