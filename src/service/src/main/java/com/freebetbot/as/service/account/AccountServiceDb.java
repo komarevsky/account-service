@@ -17,35 +17,30 @@ import org.hibernate.Transaction;
  */
 class AccountServiceDb {
     
-    private final Object getAmountLock = new Object();
-    private final Object addAmountLock = new Object();
-    
     /**
      * returns amount for specified id
      * @return amount or null if non-existing id
      * @throws AccountServiceException if any issue
      */
-    public Long getAmountById(Integer id) throws AccountServiceException {
-        synchronized(getAmountLock) {
-            Long result = null;
-        
-            Session session = null;
-            try {
-                session = HibernateHelper.getSession();
-                Account account = (Account) session.get(Account.class, id);
-                if (account != null) {
-                    result = account.getAmount();
-                }
-                session.close();
-            } catch(HibernateException ex) {
-                if (session != null) {
-                    session.close();
-                }
-                throw new AccountServiceException(ex);
+    public synchronized Long getAmountById(Integer id) throws AccountServiceException {
+        Long result = null;
+
+        Session session = null;
+        try {
+            session = HibernateHelper.getSession();
+            Account account = (Account) session.get(Account.class, id);
+            if (account != null) {
+                result = account.getAmount();
             }
-        
-            return result;
+            session.close();
+        } catch(HibernateException ex) {
+            if (session != null) {
+                session.close();
+            }
+            throw new AccountServiceException(ex);
         }
+
+        return result;
     }
     
     /**
@@ -55,26 +50,24 @@ class AccountServiceDb {
      * @throws AccountServiceException if any issue occurs
      */
     public void setAmountById(Integer id, Long amount) throws AccountServiceException {
-        synchronized(addAmountLock) {
-            Account account = new Account(id, amount);
+        Account account = new Account(id, amount);
 
-            Session session = null;
-            Transaction transaction = null;
-            try {
-                session = HibernateHelper.getSession();
-                transaction = session.beginTransaction();
-                session.saveOrUpdate(account);
-                transaction.commit();
-                session.close();
-            } catch (HibernateException ex) {
-                if (transaction != null) {
-                    transaction.rollback();
-                }
-                if (session != null) {
-                    session.close();
-                }
-                throw new AccountServiceException(ex);
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateHelper.getSession();
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(account);
+            transaction.commit();
+            session.close();
+        } catch (HibernateException ex) {
+            if (transaction != null) {
+                transaction.rollback();
             }
+            if (session != null) {
+                session.close();
+            }
+            throw new AccountServiceException(ex);
         }
     }
 }
