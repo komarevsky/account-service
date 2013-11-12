@@ -50,8 +50,8 @@ public class StiatisticsController {
     
     private void putCountersToModel(StatisticsManager manager,
             Map<String, Object> model) {
-        model.put("currentlyServedGetAmount", manager.getCurrentlyServedGetAmount());
-        model.put("currentlyServedAddAmount", manager.getCurrentlyServedAddAmount());
+        model.put("currentLoadGetAmount", manager.getCurrentLoadGetAmount());
+        model.put("currentLoadAddAmount", manager.getCurrentLoadAddAmount());
         model.put("totalCallsGetAmount", manager.getTotalCallsGetAmount());
         model.put("totalCallsAddAmount", manager.getTotalCallsAddAmount());
     }

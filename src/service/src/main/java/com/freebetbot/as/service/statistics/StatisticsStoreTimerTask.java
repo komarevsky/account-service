@@ -11,11 +11,11 @@ import java.util.TimerTask;
  * Stores statistics logs at each timer event
  * @author Siarhei Skavarodkin
  */
-public class StatisticsTimerTask extends TimerTask {
+public class StatisticsStoreTimerTask extends TimerTask {
 
     private final StatisticsManager manager;
     
-    public StatisticsTimerTask(StatisticsManager manager) {
+    public StatisticsStoreTimerTask(StatisticsManager manager) {
         this.manager = manager;
     }
     

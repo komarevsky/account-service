@@ -10,14 +10,14 @@ function timedRefresh(timeoutPeriod) {
 </script>
 </head>
 
-<body onload="JavaScript:timedRefresh(10000);">
+<body onload="JavaScript:timedRefresh(1000);">
     
-<p>Note: this page is refreshed every 10 seconds</p>
+<p>Note: this page is refreshed every second</p>
     
 <h2>Statistics:</h2>
-CurrentlyServedGetAmount: <c:out value="${currentlyServedGetAmount}"/>
+CurrentLoadGetAmount: <c:out value="${currentLoadGetAmount}"/> (invocations/sec)
 <br/>
-CurrentlyServedAddAmount: <c:out value="${currentlyServedAddAmount}"/>
+CurrentLoadAddAmount: <c:out value="${currentLoadAddAmount}"/> (invocations/sec)
 <br/>
 TotalCallsGetAmount: <c:out value="${totalCallsGetAmount}"/>
 <br/>

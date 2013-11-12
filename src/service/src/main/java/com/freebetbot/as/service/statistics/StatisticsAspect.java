@@ -6,7 +6,6 @@
 package com.freebetbot.as.service.statistics;
 
 import org.apache.log4j.Logger;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -32,22 +31,10 @@ public class StatisticsAspect {
         StatisticsManager.getInstance().incGetAmountCounter();
     }
     
-    @After("stepGetAmountMethod()")
-    public void afterGetAmountCall() {
-        LOGGER.trace("afterStepGetAmountCall");
-        StatisticsManager.getInstance().decGetAmountCounter();
-    }
-
     @Before("stepAddAmountMethod()")
     public void beforeAddAmountCall() {
         LOGGER.trace("beforeStepAddAmountCall");
         StatisticsManager.getInstance().incAddAmountCounter();
     }
     
-    @After("stepAddAmountMethod()")
-    public void afterAddAmountCall() {
-        LOGGER.trace("afterStepAddAmountCall");
-        StatisticsManager.getInstance().decAddAmountCounter();
-    }
-
 }

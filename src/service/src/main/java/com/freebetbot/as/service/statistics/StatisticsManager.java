@@ -13,24 +13,22 @@ import org.apache.log4j.Logger;
  * Gives the possibility to manage by the following counters:
  * 1. totalCallsGetAmount
  * 2. totalCallsAddAmount
- * 3. currentlyServedGetAmount
- * 4. currentlyServedAddAmount
+ * 3. currentLoadGetAmount
+ * 4. currentLoadAddAmount
  * @author Siarhei Skavarodkin
  */
 public class StatisticsManager {
     
     private static final Logger LOGGER = Logger.getLogger(StatisticsManager.class);
-    private static final long TIMER_PERIOD = 300 * 1000; // 5min
+    private static final long STORE_TIMER_PERIOD = 300 * 1000; // 5min
+    private static final long UPDATE_LOAD_TIMER_PERIOD = 1000; // 1sec
+    
     private static StatisticsManager instance;
     
-    private final Timer timer;
-    private final Object getAmountCounterLock = new Object();
-    private final Object addAmountCounterLock = new Object();
-    
-    private volatile long totalCallsGetAmount;
-    private volatile long totalCallsAddAmount;
-    private volatile long currentlyServedGetAmount;
-    private volatile long currentlyServedAddAmount;
+    private final Timer storeTimer;
+    private final Timer updateLoadTimer;
+    private final StatisticsCounter getAmountCounter;
+    private final StatisticsCounter addAmountCounter;
     
     /**
      * singleton implementation
@@ -47,9 +45,20 @@ public class StatisticsManager {
      * constructor
      */
     private StatisticsManager() {
-        StatisticsTimerTask timerTask = new StatisticsTimerTask(this);
-        timer = new Timer(true);
-        timer.scheduleAtFixedRate(timerTask, 0, TIMER_PERIOD);
+        getAmountCounter = new StatisticsCounter();
+        addAmountCounter = new StatisticsCounter();
+        
+        // timer for storing logs
+        StatisticsStoreTimerTask storeTimerTask = new StatisticsStoreTimerTask(this);
+        storeTimer = new Timer(true);
+        storeTimer.scheduleAtFixedRate(storeTimerTask, 0, STORE_TIMER_PERIOD);
+        
+        // timer to update current load
+        StatisticsUpdateLoadTimerTask updateLoadTimerTask =
+                new StatisticsUpdateLoadTimerTask(this);
+        updateLoadTimer = new Timer(true);
+        updateLoadTimer.scheduleAtFixedRate(updateLoadTimerTask, 0, 
+                UPDATE_LOAD_TIMER_PERIOD);
     }
 
     /**
@@ -57,7 +66,7 @@ public class StatisticsManager {
      * @return value of TotalCallsGetAmount counter
      */
     public long getTotalCallsGetAmount() {
-        return totalCallsGetAmount;
+        return getAmountCounter.getCurrentValue();
     }
 
     /**
@@ -65,91 +74,76 @@ public class StatisticsManager {
      * @return value of TotalCallsAddAmount counter
      */
     public long getTotalCallsAddAmount() {
-        return totalCallsAddAmount;
+        return addAmountCounter.getCurrentValue();
     }
 
     /**
-     * get value of CurrentlyServedGetAmount counter
-     * @return value of CurrentlyServedGetAmount counter
+     * get value of CurrentLoadGetAmount counter
+     * @return value of CurrentLoadGetAmount counter
      */
-    public long getCurrentlyServedGetAmount() {
-        return currentlyServedGetAmount;
+    public long getCurrentLoadGetAmount() {
+        return getAmountCounter.getCurrentLoad();
     }
 
     /**
-     * get value of CurrentlyServedAddAmount counter
-     * @return value of CurrentlyServedAddAmount counter
+     * get value of CurrentLoadAddAmount counter
+     * @return value of CurrentLoadAddAmount counter
      */
-    public long getCurrentlyServedAddAmount() {
-        return currentlyServedAddAmount;
+    public long getCurrentLoadAddAmount() {
+        return addAmountCounter.getCurrentLoad();
     }
     
     /**
-     * Resets totalCallsGetAmount and totalCallsAddAmount counters
+     * Reset all counters
      */
     public void resetCounters() {
-        synchronized (getAmountCounterLock) {
-            totalCallsGetAmount = 0;
-        }
-        synchronized (addAmountCounterLock) {
-            totalCallsAddAmount = 0;
-        }
+        getAmountCounter.resetCounter();
+        addAmountCounter.resetCounter();
         LOGGER.info("Statistics counters reset has been invoked");
     }
-
 
     /**
      * stores current counter values to log
      */
-    public void storeCountersToLog() {
+    public synchronized void storeCountersToLog() {
         LOGGER.info(this.toString());
     }
     
     /**
-     * increases currentlyServedGetAmount and totalCallsGetAmount counters
+     * updates values of currentLoadGetAmount and currentLoadAddAmount counters
+     */
+    public void updateCurrentLoadCounters() {
+        getAmountCounter.updateCurrentLoad();
+        addAmountCounter.updateCurrentLoad();
+    }
+    
+    /**
+     * increases totalCallsGetAmount counter
      */
     public void incGetAmountCounter() {
-        synchronized (getAmountCounterLock) {
-            ++currentlyServedGetAmount;
-            ++totalCallsGetAmount;
-        }
+        getAmountCounter.stepCounter();
     }
     
     /**
-     * decreases currentlyServedGetAmount counters
-     */
-    public void decGetAmountCounter() {
-        synchronized (getAmountCounterLock) {
-            --currentlyServedGetAmount;
-        }
-    }
-
-    /**
-     * increases currentlyServedAddAmount and totalCallsAddAmount counters
+     * increases totalCallsAddAmount counter
      */
     public void incAddAmountCounter() {
-        synchronized (addAmountCounterLock) {
-            ++currentlyServedAddAmount;
-            ++totalCallsAddAmount;
-        }
+        addAmountCounter.stepCounter();
     }
     
-    /**
-     * decreases currentlyServedAddAmount counters
-     */
-    public void decAddAmountCounter() {
-        synchronized (addAmountCounterLock) {
-            --currentlyServedAddAmount;
-        }
-    }
-
     @Override
     public String toString() {
-        return "StatisticsManager{\ntotalCallsGetAmount=" + totalCallsGetAmount
-                + "\ntotalCallsAddAmount=" + totalCallsAddAmount 
-                + "\ncurrentlyServedGetAmount=" + currentlyServedGetAmount 
-                + "\ncurrentlyServedAddAmount=" + currentlyServedAddAmount 
-                + "\n}";
+        return new StringBuffer("StatisticsManager{\n")
+                .append("totalCallsGetAmount=")
+                .append(getAmountCounter.getCurrentValue())
+                .append("\ntotalCallsAddAmount=")
+                .append(addAmountCounter.getCurrentValue())
+                .append("\ncurrentLoadGetAmount=")
+                .append(getAmountCounter.getCurrentLoad())
+                .append("\ncurrentLoadAddAmount=")
+                .append(addAmountCounter.getCurrentLoad())
+                .append("\n}")
+                .toString();
     }
     
 }
