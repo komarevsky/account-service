@@ -1,7 +1,7 @@
 account-service
 ===============
 
-sample JavaEE project. Uses: Log4j, Hessian, Spring, Hibernate, Maven, Java7
+sample JavaEE project. Uses: Log4j, Hessian, Spring, Hibernate, AspectJ, Maven, Java7
 
 Project consists of
 * war app - server
