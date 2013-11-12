@@ -17,8 +17,8 @@ GUI consists of:
 Counters
 =========================
 The following counters are presented:
-1. CurrentlyServedGetAmount - number of getAmount invocations that are currently being served
-2. CurrentlyServedAddAmount - number of addAmount invocations that are currently being served
+1. CurrentLoadGetAmount - number of invocations getAmount method per second
+2. CurrentLoadAddAmount - number of invocations addAmount method per second
 3. TotalCallsGetAmount - number of invocations of getAmount method
 4. TotalCallsAddAmount - number of invocations of addAmount method
 
