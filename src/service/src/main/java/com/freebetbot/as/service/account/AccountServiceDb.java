@@ -49,7 +49,7 @@ class AccountServiceDb {
      * @param amount
      * @throws AccountServiceException if any issue occurs
      */
-    public void setAmountById(Integer id, Long amount) throws AccountServiceException {
+    public synchronized void setAmountById(Integer id, Long amount) throws AccountServiceException {
         Account account = new Account(id, amount);
 
         Session session = null;
